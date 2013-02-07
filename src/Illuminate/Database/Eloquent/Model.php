@@ -16,7 +16,7 @@ use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\ConnectionResolverInterface as Resolver;
 
-abstract class Model implements ArrayableInterface, JsonableInterface {
+abstract class Model implements ArrayableInterface, JsonableInterface, XmlableInterface {
 
 	/**
 	 * The connection name for the model.
