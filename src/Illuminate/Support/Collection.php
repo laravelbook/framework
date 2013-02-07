@@ -6,9 +6,10 @@ use ArrayAccess;
 use ArrayIterator;
 use IteratorAggregate;
 use Illuminate\Support\Contracts\JsonableInterface;
+use Illuminate\Support\Contracts\XmlableInterface;
 use Illuminate\Support\Contracts\ArrayableInterface;
 
-class Collection implements ArrayAccess, ArrayableInterface, Countable, IteratorAggregate, JsonableInterface {
+class Collection implements ArrayAccess, ArrayableInterface, Countable, IteratorAggregate, JsonableInterface, XmlableInterface {
 
 	/**
 	 * The items contained in the collection.
@@ -107,6 +108,47 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
 	public function toJson($options = JSON_NUMERIC_CHECK)
 	{
 		return json_encode($this->toArray(), $options);
+	}
+
+    /**
+     * Get the collection of items as XML.
+     *
+     * @param  string  $rootElement
+     * @param  string  $xmlVersion
+     * @param  string  $xmlEncoding
+     * @return string
+     */
+	public function toXml($rootElement = 'items', $xmlVersion = '1.0', $xmlEncoding = 'UTF-8')
+	{
+		$xml = new XmlWriter();
+		$xml->openMemory();
+		$xml->startDocument($xmlVersion, $xmlEncoding);
+		$xml->startElement($rootElement);
+
+		/**
+		* Write XML as per Associative Array
+		* @param object $xml XMLWriter Object
+		* @param array $data Associative Data Array
+		*/
+		function writeXmlRecursive(XMLWriter $xml, $data)
+		{
+			foreach($data as $key => $value) {
+				if(is_array($value)) {
+					$xml->startElement($key);
+					writeXmlRecursive($xml, $value);
+					$xml->endElement();
+					continue;
+				}
+
+				$xml->writeElement($key, $value);
+			}
+		}
+
+		writeXmlRecursive($xml, $this->toArray());
+
+		$xml->endElement();//write end element
+		//Return the XML results
+		return $xml->outputMemory(true);
 	}
 
 	/**
