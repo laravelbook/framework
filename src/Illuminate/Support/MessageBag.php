@@ -3,6 +3,7 @@
 use Countable;
 use Illuminate\Support\Contracts\ArrayableInterface;
 use Illuminate\Support\Contracts\JsonableInterface;
+use Illuminate\Support\Contracts\XmlableInterface;
 use Illuminate\Support\Contracts\MessageProviderInterface;
 
 class MessageBag implements ArrayableInterface, Countable, JsonableInterface, MessageProviderInterface {
@@ -257,6 +258,19 @@ class MessageBag implements ArrayableInterface, Countable, JsonableInterface, Me
 	public function toJson($options = 0)
 	{
 		return json_encode($this->toArray(), $options);
+	}
+
+    /**
+     * Convert the object to its XML representation.
+     *
+     * @param  string  $rootElement
+     * @param  string  $xmlVersion
+     * @param  string  $xmlEncoding
+     * @return string
+     */
+	public function toXml($rootElement = 'items', $xmlVersion = '1.0', $xmlEncoding = 'UTF-8')
+	{
+		return XmlSerializer::serialize($rootElement, $xmlVersion, $xmlEncoding);
 	}
 
 	/**

@@ -120,35 +120,7 @@ class Collection implements ArrayAccess, ArrayableInterface, Countable, Iterator
      */
 	public function toXml($rootElement = 'items', $xmlVersion = '1.0', $xmlEncoding = 'UTF-8')
 	{
-		$xml = new XmlWriter();
-		$xml->openMemory();
-		$xml->startDocument($xmlVersion, $xmlEncoding);
-		$xml->startElement($rootElement);
-
-		/**
-		* Write XML as per Associative Array
-		* @param object $xml XMLWriter Object
-		* @param array $data Associative Data Array
-		*/
-		function writeXmlRecursive(XMLWriter $xml, $data)
-		{
-			foreach($data as $key => $value) {
-				if(is_array($value)) {
-					$xml->startElement($key);
-					writeXmlRecursive($xml, $value);
-					$xml->endElement();
-					continue;
-				}
-
-				$xml->writeElement($key, $value);
-			}
-		}
-
-		writeXmlRecursive($xml, $this->toArray());
-
-		$xml->endElement();//write end element
-		//Return the XML results
-		return $xml->outputMemory(true);
+		return XmlSerializer::serialize($rootElement, $xmlVersion, $xmlEncoding);
 	}
 
 	/**
