@@ -2,6 +2,7 @@
 
 use Symfony\Component\HttpFoundation\Cookie;
 use Illuminate\Support\Contracts\JsonableInterface;
+use Illuminate\Support\Contracts\XmlableInterface;
 use Illuminate\Support\Contracts\RenderableInterface;
 
 class Response extends \Symfony\Component\HttpFoundation\Response {
