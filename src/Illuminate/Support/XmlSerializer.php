@@ -2,13 +2,13 @@
 
 class XmlSerializer {
 
-    public static function serialize($rootElement = 'items', $xmlVersion = '1.0', $xmlEncoding = 'UTF-8')
+    public static function serialize($data, $rootElement = 'items', $xmlVersion = '1.0', $xmlEncoding = 'UTF-8')
     {
         $xml = new XmlWriter();
         $xml->openMemory();
         $xml->startDocument($xmlVersion, $xmlEncoding);
         $xml->startElement($rootElement);
-        static::writeXmlRecursive($xml, $this->toArray());
+        static::writeXmlRecursive($xml, $data);
         $xml->endElement();
 
         return $xml->outputMemory(true);

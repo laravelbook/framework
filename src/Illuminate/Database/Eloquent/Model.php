@@ -797,7 +797,7 @@ abstract class Model implements ArrayableInterface, JsonableInterface {
      */
 	public function toXml($rootElement = 'items', $xmlVersion = '1.0', $xmlEncoding = 'UTF-8')
 	{
-		return XmlSerializer::serialize($rootElement, $xmlVersion, $xmlEncoding);
+		return XmlSerializer::serialize($this->toArray(), $rootElement, $xmlVersion, $xmlEncoding);
 	}
 
 	/**

@@ -29,6 +29,19 @@ class Response {
 	}
 
 	/**
+	 * Return a new XML response from the application.
+	 *
+	 * @param  string  $content
+	 * @param  int     $status
+	 * @param  array   $headers
+	 * @return Illuminate\Http\XmlResponse
+	 */
+	public static function xml($data = array(), $status = 200, array $headers = array())
+	{
+		return new \Illuminate\Http\XmlResponse($data, $status, $headers);
+	}
+
+	/**
 	 * Return a new streamed response from the application.
 	 *
 	 * @param  Closure  $callback
