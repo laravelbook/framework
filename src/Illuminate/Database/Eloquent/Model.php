@@ -6,6 +6,8 @@ use Illuminate\Database\Connection;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Contracts\JsonableInterface;
+use Illuminate\Support\Contracts\XmlableInterface;
+use Illuminate\Support\Contracts\XmlSerializer;
 use Illuminate\Support\Contracts\ArrayableInterface;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -783,6 +785,19 @@ abstract class Model implements ArrayableInterface, JsonableInterface {
 	public function toJson($options = JSON_NUMERIC_CHECK)
 	{
 		return json_encode($this->toArray(), $options);
+	}
+
+    /**
+     * Convert the model instance to its XML representation.
+     *
+     * @param  string  $rootElement
+     * @param  string  $xmlVersion
+     * @param  string  $xmlEncoding
+     * @return string
+     */
+	public function toXml($rootElement = 'items', $xmlVersion = '1.0', $xmlEncoding = 'UTF-8')
+	{
+		return XmlSerializer::serialize($rootElement, $xmlVersion, $xmlEncoding);
 	}
 
 	/**
